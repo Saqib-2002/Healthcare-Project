@@ -1,18 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaUser, FaCalendarAlt, FaEnvelope, FaPhone, FaBuilding } from 'react-icons/fa';
+import axios from 'axios';
 
 function Appointment() {
+  // State for form inputs
+  const [formData, setFormData] = useState({
+    name: "",
+    date: "",
+    fatherName: "",
+    email: "",
+    mobile: "",
+    department: "",
+  });
+
+  // Handle input changes
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/api/appointments/book", formData);
+      alert(response.data.message);
+    } catch (error) {
+      alert("Booking failed. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl">
         <h2 className="text-3xl font-bold text-blue-600 mb-8 text-center">Book an Appointment</h2>
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Name Field */}
           <div className="flex items-center border-b-2 border-blue-200 py-2">
             <FaUser className="text-blue-500 mr-3 text-xl" />
             <input
               type="text"
+              name="name"
               placeholder="Your Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
               className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -22,6 +53,10 @@ function Appointment() {
             <FaCalendarAlt className="text-blue-500 mr-3 text-xl" />
             <input
               type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
               className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -31,7 +66,11 @@ function Appointment() {
             <FaUser className="text-blue-500 mr-3 text-xl" />
             <input
               type="text"
+              name="fatherName"
               placeholder="Father's Name"
+              value={formData.fatherName}
+              onChange={handleChange}
+              required
               className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -41,7 +80,11 @@ function Appointment() {
             <FaEnvelope className="text-blue-500 mr-3 text-xl" />
             <input
               type="email"
+              name="email"
               placeholder="Your Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
               className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -51,7 +94,11 @@ function Appointment() {
             <FaPhone className="text-blue-500 mr-3 text-xl" />
             <input
               type="tel"
+              name="mobile"
               placeholder="Mobile Number"
+              value={formData.mobile}
+              onChange={handleChange}
+              required
               className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -59,7 +106,13 @@ function Appointment() {
           {/* Department Field */}
           <div className="flex items-center border-b-2 border-blue-200 py-2">
             <FaBuilding className="text-blue-500 mr-3 text-xl" />
-            <select className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              required
+              className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
               <option value="">Select Department</option>
               <option value="cardiology">Cardiology</option>
               <option value="neurology">Neurology</option>
