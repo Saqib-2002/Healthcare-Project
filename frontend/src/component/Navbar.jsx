@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 const Navbar = () => {
   const data = ["Home", "Services", "Doctors", "Team", "Contact Us"];
   const [toggle, setToggle] = useState(false);
@@ -37,9 +37,11 @@ const Navbar = () => {
               );
             })}
           </div>
+          <Link to='/appointment'>
           <button className="text-1 rounded-md bg-yellow-300 px-8 py-4 text-sm font-semibold uppercase transition-all duration-300 ease-in-out hover:bg-yellow-400 max-sm:hidden">
             make appointment
           </button>
+          </Link>
         </div>
       </div>
       {/* Sidebar */}
