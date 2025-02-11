@@ -42,6 +42,7 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+      {/* Sidebar */}
     </nav>
   );
 };
