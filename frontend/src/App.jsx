@@ -1,6 +1,28 @@
+import { createBrowserRouter, RouterProvider } from "react-router";
+import Navbar from "./component/Navbar";
+
+const RootElement = () => {
+  return (
+    <>
+      <Navbar/>
+    </>
+  )
+}
+
+const router = createBrowserRouter([{
+  path: "/",
+  element: <RootElement />,
+  errorElement: <h1>404 error</h1>,
+  children: [
+    {
+      
+    }
+  ]
+}])
+
 const App = () => {
   return (
-    <div className="text-red-700 bg-yellow-300">App</div>
+    <RouterProvider router={router}/>
   )
 }
 export default App

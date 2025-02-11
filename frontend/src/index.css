@@ -1,1 +1,7 @@
 @import "tailwindcss";
+@import "@flaticon/flaticon-uicons/css/all/all";
+
+
+@theme {
+    --color-1: #121f38;
+}
