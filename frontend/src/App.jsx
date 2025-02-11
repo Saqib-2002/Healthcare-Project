@@ -1,36 +1,37 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"; // Corrected import
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
-import Appointment from "./component/Appointement"; // Import the Appointment component
-import Sucess from "./pages/sucess"; // Corrected the import for Success page
+import Appointment from "./component/Appointement"; 
+import Success from "./pages/Sucess"; 
+import Hero from "./component/Hero";
+import About from "./pages/About"; 
+import Service from "./pages/Service"; 
 
-// RootElement layout (for consistent Navbar and Footer)
+// ✅ Root Layout (Navbar & Footer always visible)
 const RootElement = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Outlet /> {/* Render child routes here */}
+      <div className="flex-grow"> {/* Ensures content pushes footer down */}
+        <Outlet /> {/* Page content will render here */}
+      </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
-// Router setup with routes for Appointment and Success pages
+// ✅ Router setup (Navbar & Footer always present)
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootElement />,
-    errorElement: <h1>404 error</h1>,
+    element: <RootElement />, 
+    errorElement: <h1 className="text-center mt-20 text-3xl font-bold">404 Error - Page Not Found</h1>,
     children: [
-      {
-        path: "/appointment", // Define the route for the Appointment component
-        element: <Appointment />,
-      },
-      {
-        path: "/sucess", // Define the route for the Success page
-        element: <Sucess />, // When booking is successful, redirect here
-      },
-      // Add other routes here as needed
+      { index: true, element: <Hero /> }, // Home page
+      { path: "appointment", element: <Appointment /> },
+      { path: "success", element: <Success /> },
+      { path: "about", element: <About /> },
+      { path: "services", element: <Service /> },
     ],
   },
 ]);

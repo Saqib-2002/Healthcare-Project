@@ -1,89 +1,92 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaBars, FaTimes } from 'react-icons/fa';
+
 const Navbar = () => {
-  const data = ["Home", "Services", "Doctors", "Team", "Contact Us"];
-  const [toggle, setToggle] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggle = () => {
-    setToggle(!toggle);
-  };
   return (
-    <nav className="">
-      <NavTopBar />
+    <nav className="absolute top-0 left-0 w-full px-6 sm:px-10 py-5 bg-transparent z-20">
+      <div className="flex justify-between items-center">
+        {/* Logo */}
+        <div className="flex items-center space-x-4">
+          <div className="bg-[#00efdf] w-14 h-14 flex items-center justify-center rounded-lg">
+            <div className="relative w-6 h-6 border-b-4 border-white rounded-full"></div>
+          </div>
+          <div className="text-white text-2xl sm:text-3xl font-extrabold">
+            THE SMILE SPACE
+          </div>
+        </div>
 
-      {/* Main Nav */}
-      <div className="bg-gray-50 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex justify-between">
-            <button
-              onClick={handleToggle}
-              className={`mt-1 cursor-pointer text-lg duration-150 hover:scale-110 hover:text-yellow-500 md:hidden ${toggle ? "rotate-90" : "rotate-0"}`}
-            >
-              <i className={`fi fi-br-${toggle ? "cross" : "bars-sort"} `}></i>
-            </button>
-            <NavLink className="text-xl font-bold max-md:absolute max-md:left-1/2 max-md:-translate-x-1/2 max-md:transform">
-              HealthCare
-            </NavLink>
-          </div>
-          <div className="flex flex-1 justify-center gap-x-8 max-md:hidden">
-            {data.map((data, index) => {
-              return (
-                <NavLink
-                  key={index}
-                  className="text-center font-semibold transition-all hover:scale-105 hover:text-yellow-500"
-                >
-                  {data}
-                </NavLink>
-              );
-            })}
-          </div>
-          <Link to='/appointment'>
-          <button className="text-1 rounded-md bg-yellow-300 px-8 py-4 text-sm font-semibold uppercase transition-all duration-300 ease-in-out hover:bg-yellow-400 max-sm:hidden">
-            make appointment
-          </button>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-8 text-lg font-semibold">
+          <Link to="/" className="text-white hover:text-[#00efdf] transition duration-200">
+            HOME
+          </Link>
+          <Link to="/services" className="text-white hover:text-[#00efdf] transition duration-200">
+            SERVICES
+          </Link>
+          <Link to="/doctors" className="text-white hover:text-[#00efdf] transition duration-200">
+            DOCTORS
+          </Link>
+          <Link to="/team" className="text-white hover:text-[#00efdf] transition duration-200">
+            TEAM
+          </Link>
+          <Link to="/contact" className="text-white hover:text-[#00efdf] transition duration-200">
+            CONTACT US
           </Link>
         </div>
+
+        {/* Appointment Button (Desktop) */}
+        <div className="hidden md:block">
+          <Link
+            to="/appointment"
+            className="px-6 py-3 text-lg bg-white text-black font-bold rounded-lg hover:bg-[#00efdf] transition duration-300"
+          >
+            MAKE APPOINTMENT
+          </Link>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-white text-2xl focus:outline-none"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
       </div>
-      {/* Sidebar */}
+
+      {/* Mobile Menu */}
+      <div
+        className={`${
+          isOpen ? 'block' : 'hidden'
+        } absolute top-20 left-0 w-full bg-black bg-opacity-90 py-6 flex flex-col items-center space-y-6 text-xl`}
+      >
+        <Link to="/" className="text-white hover:text-[#00efdf]" onClick={() => setIsOpen(false)}>
+          HOME
+        </Link>
+        <Link to="/services" className="text-white hover:text-[#00efdf]" onClick={() => setIsOpen(false)}>
+          SERVICES
+        </Link>
+        <Link to="/doctors" className="text-white hover:text-[#00efdf]" onClick={() => setIsOpen(false)}>
+          DOCTORS
+        </Link>
+        <Link to="/team" className="text-white hover:text-[#00efdf]" onClick={() => setIsOpen(false)}>
+          TEAM
+        </Link>
+        <Link to="/contact" className="text-white hover:text-[#00efdf]" onClick={() => setIsOpen(false)}>
+          CONTACT US
+        </Link>
+        <Link
+          to="/appointment"
+          className="px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-[#00efdf] transition duration-300"
+          onClick={() => setIsOpen(false)}
+        >
+          MAKE APPOINTMENT
+        </Link>
+      </div>
     </nav>
   );
 };
 
-const NavTopBar = () => {
-  const data = [
-    {
-      title: "95 Brooklyn, New York 11213, US",
-      icon: "marker",
-    },
-    {
-      title: "help@thesmilespace.com",
-      icon: "envelope",
-    },
-  ];
-  const navRight = ["instagram", "linkedin", "facebook", "youtube"];
-
-  return (
-    <div className="bg-1 flex justify-between px-4 py-3 text-white max-md:hidden">
-      <div className="flex gap-2">
-        {data.map((data, index) => (
-          <div key={index} className="pointer-events-none ml-4 flex gap-2">
-            <i className={`fi fi-sr-${data.icon} h-4 w-4`}></i>
-            <p className="text-sm">{data.title}</p>
-          </div>
-        ))}
-      </div>
-      <div>
-        {navRight.map((data, index) => {
-          return (
-            <NavLink key={index} to="/">
-              <i
-                className={`fi fi-brands-${data} mx-2 transition-all duration-300 ease-in-out hover:text-zinc-300`}
-              ></i>
-            </NavLink>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
 export default Navbar;

@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const footerLinks = [
@@ -33,74 +33,72 @@ const Footer = () => {
         "Thursday - 8:00 - 18:00",
         "Friday - 8:00 - 18:00",
         "Saturday - 8:00 - 18:00",
-        "Sunday - closed",
+        "Sunday - Closed",
       ],
     },
   ];
-  const socials = ["instagram", "linkedin", "facebook", "youtube"];
+
+  const socials = [
+    { name: "Instagram", icon: "fi fi-brands-instagram", link: "#" },
+    { name: "LinkedIn", icon: "fi fi-brands-linkedin", link: "#" },
+    { name: "Facebook", icon: "fi fi-brands-facebook", link: "#" },
+    { name: "YouTube", icon: "fi fi-brands-youtube", link: "#" },
+  ];
+
   const footEnd = ["Privacy Policy", "Terms of Services", "Support"];
+
   return (
-    <div className="mt-12 bg-gray-50 px-6 py-12">
-      <div className="grid grid-cols-4 gap-6">
-        <div className="mt-12 space-y-8">
-          <h1 className="text-xl font-bold max-md:absolute max-md:left-1/2 max-md:-translate-x-1/2 max-md:transform">
-            HealthCare
-          </h1>
-          <p className="max-w-60 font-medium text-zinc-700">
-            We are many variations of passages available but the majority have
-            suffered alteration in some form by injected humour or randomised
-            words.
+    <div className="mt-12 bg-gray-100 px-6 py-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        {/* Logo & Description */}
+        <div className="space-y-6">
+          <h1 className="text-2xl font-bold text-gray-900">HealthCare</h1>
+          <p className="max-w-xs text-gray-700">
+            We provide high-quality dental care with a strong commitment to
+            patient health and well-being.
           </p>
-          <ul className="flex">
-            {socials.map((link, index) => {
-              return (
-                <li
-                  key={index}
-                  className="mx-4 text-xl transition-all duration-150 ease-in-out hover:scale-110 hover:text-zinc-700"
-                >
-                  <Link to="/" className="">
-                    <i className={`fi fi-brands-${link} `}></i>
-                  </Link>{" "}
-                </li>
-              );
-            })}
-          </ul>
+          {/* Social Icons */}
+          <div className="flex space-x-4">
+            {socials.map((social, index) => (
+              <a
+                key={index}
+                href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-2xl text-gray-600 transition-all duration-200 hover:text-[#00efdf] hover:scale-110"
+                title={social.name}
+              >
+                <i className={social.icon}></i>
+              </a>
+            ))}
+          </div>
         </div>
 
-        {footerLinks.map((data, index) => {
-          return (
-            <div key={index} className="space-y-8">
-              <p className="text-xl font-bold">{data.title}</p>
-              <ul className="space-y-2">
-                {data.links.map((data, index) => {
-                  return (
-                    <li key={index} className="text-md">
-                      <i className="fi fi-rr-angle-small-right relative top-1"></i>
-                      <Link
-                        to="/"
-                        className="transition-all duration-150 ease-in-out hover:pl-2"
-                      >
-                        {data}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          );
-        })}
+        {/* Footer Links */}
+        {footerLinks.map((section, index) => (
+          <div key={index} className="space-y-6">
+            <p className="text-xl font-semibold text-gray-900">{section.title}</p>
+            <ul className="space-y-2">
+              {section.links.map((link, index) => (
+                <li key={index} className="text-gray-700 hover:text-[#00efdf] transition-all duration-200">
+                  <i className="fi fi-rr-angle-small-right text-[#00efdf] mr-2"></i>
+                  <Link to="/">{link}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-      {/* footEnd */}
+
+      {/* Footer Bottom */}
       <div className="mt-12">
-        <hr className="mb-6 text-zinc-400" />
-        <div className="flex justify-between text-xs font-medium text-zinc-700">
-          <p className="pl-2">
-            &copy;Copyright 2025 HealthCare All Right Reserved.
-          </p>
-          <ul className="flex gap-8">
-            {footEnd.map((link, index) => (
-              <li key={index} className="hover:text-zinc-900">
-                <Link to="/">{link}</Link>
+        <hr className="mb-6 border-gray-400" />
+        <div className="flex flex-col md:flex-row justify-between text-sm text-gray-700">
+          <p>&copy; 2025 HealthCare. All Rights Reserved.</p>
+          <ul className="flex gap-6 mt-3 md:mt-0">
+            {footEnd.map((item, index) => (
+              <li key={index} className="hover:text-[#00efdf] transition-all duration-200">
+                <Link to="/">{item}</Link>
               </li>
             ))}
           </ul>
@@ -109,4 +107,5 @@ const Footer = () => {
     </div>
   );
 };
+
 export default Footer;
