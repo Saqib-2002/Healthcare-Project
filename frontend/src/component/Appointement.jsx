@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { FaUser, FaCalendarAlt, FaEnvelope, FaPhone, FaBuilding } from 'react-icons/fa';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function Appointment() {
-  // State for form inputs
+  const navigate = useNavigate(); // Initialize navigate function for redirection
   const [formData, setFormData] = useState({
     name: "",
     date: "",
@@ -22,10 +23,12 @@ function Appointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/appointments/book", formData);
-      alert(response.data.message);
+      const response = await axios.post("http://localhost:8080/api/v1/appointments/book", formData);
+      console.log(response.data.message); // Handle success response
+      navigate('/sucess'); // Navigate to success page
     } catch (error) {
-      alert("Booking failed. Please try again.");
+      console.error("Error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Booking failed. Please try again.");
     }
   };
 
