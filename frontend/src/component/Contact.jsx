@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
-
+import Alert from "./Alert";
+import AlertDescription from "./AlertDescription";
+import AlertTitle from "./AlertTitle";
+import { X } from "lucide-react";
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -9,14 +12,12 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState(null);
-  const [showModal, setShowModal] = useState(false); // Modal state
+  const [showAlert, setShowAlert] = useState(false);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
@@ -34,21 +35,58 @@ const Contact = () => {
 
       if (response.ok) {
         setStatus("success");
-        setFormData({ name: "", email: "", message: "" }); // Reset form
-        setShowModal(true); // Show success modal
+        setFormData({ name: "", email: "", message: "" });
       } else {
         setStatus("error");
-        setShowModal(true); // Show error modal
       }
+      setShowAlert(true);
+      
+      // Auto-hide alert after 5 seconds
+      setTimeout(() => {
+        setShowAlert(false);
+        setStatus(null);
+      }, 5000);
+      
     } catch (error) {
       console.error("Error submitting form:", error);
       setStatus("error");
-      setShowModal(true);
+      setShowAlert(true);
+      
+      setTimeout(() => {
+        setShowAlert(false);
+        setStatus(null);
+      }, 5000);
     }
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 relative">
+      {/* Alert Popup */}
+      {showAlert && (
+        <div className="fixed top-4 right-4 w-96 z-50">
+          <Alert className={`${
+            status === "success" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"
+          } relative`}>
+            <div className="absolute right-2 top-2">
+              <button
+                onClick={() => setShowAlert(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <AlertTitle className={status === "success" ? "text-green-800" : "text-red-800"}>
+              {status === "success" ? "Success!" : "Error!"}
+            </AlertTitle>
+            <AlertDescription className={status === "success" ? "text-green-700" : "text-red-700"}>
+              {status === "success"
+                ? "Your message has been sent successfully. We'll get back to you soon!"
+                : "There was an error sending your message. Please try again later."}
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+
       <h2 className="text-3xl font-bold text-center mb-8">Contact Us</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -91,11 +129,13 @@ const Contact = () => {
               required
             ></textarea>
           </div>
-          <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">
-            Send Message
+          <button 
+            type="submit" 
+            className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition disabled:bg-blue-400"
+            disabled={status === "loading"}
+          >
+            {status === "loading" ? "Sending..." : "Send Message"}
           </button>
-
-          {status === "loading" && <p className="text-blue-600 mt-2">Sending...</p>}
         </form>
 
         {/* Right Section - Contact Details */}
@@ -121,28 +161,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-
-      {/* MODAL FOR SUCCESS/ERROR MESSAGE */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
-            <h3 className={`text-lg font-bold ${status === "success" ? "text-green-600" : "text-red-600"}`}>
-              {status === "success" ? "Message Sent Successfully!" : "Error Sending Message"}
-            </h3>
-            <p className="text-gray-700 mt-2">
-              {status === "success"
-                ? "We have received your message and will get back to you soon."
-                : "There was an issue sending your message. Please try again later."}
-            </p>
-            <button 
-              onClick={() => setShowModal(false)} 
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

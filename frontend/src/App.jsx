@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Services from "./pages/Services"; // Only one import for Services
 import Contact from "./component/Contact";
 import DoctorTeam from "./pages/DoctorTeam";
+import Doctors from "./pages/Doctors";
 
 // ✅ Root Layout (Navbar & Footer always visible)
 const RootElement = () => {
@@ -44,6 +45,8 @@ const router = createBrowserRouter([
       { path: "services", element: <Services /> },
       {path: "Contact",element:<Contact/>}, 
       {path:"team",element:<DoctorTeam/>},
+      {path:"doctors",element:<Doctors/>},
+      // {path:"*",element:<NotFound/>}
       // 404 page
 
     ],

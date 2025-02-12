@@ -1,6 +1,6 @@
 import Contact from "../models/contactModel.js";
 
-// @desc    Create a new contact message
+// @desc    Create a new contact message (allows duplicate entries)
 // @route   POST /api/contact
 // @access  Public
 export const submitContactForm = async (req, res) => {
@@ -11,6 +11,7 @@ export const submitContactForm = async (req, res) => {
       return res.status(400).json({ error: "All fields are required." });
     }
 
+    // Create a new contact entry without checking for duplicates
     const contact = new Contact({ name, email, message });
     await contact.save();
 
