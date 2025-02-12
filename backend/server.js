@@ -6,6 +6,7 @@ import connectdb from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
 import cors from 'cors';  // Import cors
+import contactRoutes from "./routes/ContactRoute.js";
 
 // Load environment variables
 dotenv.config();
@@ -26,7 +27,7 @@ app.use(express.json());
 // Routes
 app.use('/api/v1/user', userRoutes);  // User routes
 app.use('/api/v1', appointmentRoutes);  // Appointment routes
-
+app.use("/api/contact", contactRoutes);
 // Port configuration
 const port = process.env.PORT || 5000;
 

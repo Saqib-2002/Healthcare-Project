@@ -5,7 +5,9 @@ import Appointment from "./component/Appointement";
 import Success from "./pages/Sucess"; 
 import Hero from "./component/Hero";
 import About from "./pages/About"; 
-import Service from "./pages/Service"; 
+import Services from "./pages/Services"; // Only one import for Services
+import Contact from "./component/Contact";
+import DoctorTeam from "./pages/DoctorTeam";
 
 // ✅ Root Layout (Navbar & Footer always visible)
 const RootElement = () => {
@@ -20,18 +22,30 @@ const RootElement = () => {
   );
 };
 
+// ✅ 404 Page Component
+const NotFound = () => (
+  <div className="text-center mt-20">
+    <h1 className="text-3xl font-bold">404 Error - Page Not Found</h1>
+    <p className="text-lg text-gray-600 mt-2">The page you're looking for doesn't exist.</p>
+  </div>
+);
+
 // ✅ Router setup (Navbar & Footer always present)
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootElement />, 
-    errorElement: <h1 className="text-center mt-20 text-3xl font-bold">404 Error - Page Not Found</h1>,
+    errorElement: <NotFound />, // Using a component instead of raw <h1>
     children: [
       { index: true, element: <Hero /> }, // Home page
       { path: "appointment", element: <Appointment /> },
       { path: "success", element: <Success /> },
       { path: "about", element: <About /> },
-      { path: "services", element: <Service /> },
+      { path: "services", element: <Services /> },
+      {path: "Contact",element:<Contact/>}, 
+      {path:"team",element:<DoctorTeam/>},
+      // 404 page
+
     ],
   },
 ]);
